@@ -1,7 +1,8 @@
-import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
+import GraphQLJSON from 'graphql-type-json';
 
 export const typeDefs = `#graphql
+  scalar JSON
+
   type User {
     id: ID!
     email: String!
