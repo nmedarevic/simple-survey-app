@@ -1,0 +1,45 @@
+scalar JSON
+
+type Survey {
+  id: ID!
+  schema: JSON!
+  version: String!
+}
+
+type Submission {
+  id: ID!
+  userId: ID!
+  createdAt: String!
+  data: JSON!
+}
+
+
+type User {
+  id: ID!
+  email: String!
+  role: Role!
+}
+
+enum Role { 
+  RESPONDER 
+  REVIEWER 
+}
+
+type Submission {
+  id: ID!
+  userId: ID!
+  createdAt: String!
+  data: JSON!
+}
+
+type Query {
+  me: User
+  survey: Survey!
+  mySubmissions: [Submission!]!   # RESPONDER only
+  allSubmissions: [Submission!]!  # REVIEWER only
+}
+
+type Mutation {
+  login(email: String!, password: String!): String!
+  submitSurvey(data: JSON!): Submission!            # RESPONDER only
+}
