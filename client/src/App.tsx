@@ -5,6 +5,7 @@ import { ApolloProvider } from "@apollo/client/react";
 import { AuthProvider } from './contexts/AuthContext';
 import { setContext } from '@apollo/client/link/context';
 import ResponderRoute from './components/ResponderRoute';
+import AdminRoute from './components/AdminRoute';
 
 
 const authLink = setContext((_, { headers }) => {
@@ -34,7 +35,7 @@ function App() {
     <ApolloProvider client={client}>
       <AuthProvider>
         <ResponderRoute />
-        {/* <AdminRoute /> */}
+        <AdminRoute />
       </AuthProvider>
     </ApolloProvider>
   );

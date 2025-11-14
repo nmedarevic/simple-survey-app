@@ -67,8 +67,6 @@ export default function SurveyComponent() {
   const survey = new Model(config);
   survey.applyTheme(SharpLight);
 
-  
-
   FunctionFactory.Instance.register("validateStringLength", validateStringLength);
   survey.onComplete.add(surveyComplete);
   survey.validationAllowSwitchPages = true;

@@ -1,8 +1,7 @@
 import { useAuth } from '../contexts/AuthContext';
 import LoginPage from './pages/LoginPage';
 import { Role } from '../schemaTypes/graphql';
-import SurveyComponent from './Survey';
-import { simpleConfig } from '../form-config/simple-config';
+import AdminPage from './pages/AdminPage';
 
 const AdminRoute = () => {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -15,13 +14,12 @@ const AdminRoute = () => {
     );
   }
 
-  console.log('\n\n', isAuthenticated, '\n\n');
   if (!isAuthenticated) {
     return <LoginPage />;
   }
 
   if (isAuthenticated && user?.role === Role.Reviewer) {
-    return <SurveyComponent config={simpleConfig} />
+    return <AdminPage />
   }
 
   return <></>;
