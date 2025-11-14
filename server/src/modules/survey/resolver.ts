@@ -8,7 +8,7 @@ export const surveyResolvers: Resolvers<MyContext> = {
   Query: {
     survey: async (_parent, _args, context) => {
       const { db } = context;
-      const result: SurveyModel = await db.get('SELECT * FROM survey');
+      const result: SurveyModel = await db.get('SELECT * FROM surveys');
       return {
         id: result.id.toString(),
         schema: result.data,
