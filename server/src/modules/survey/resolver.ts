@@ -23,7 +23,12 @@ export const surveyResolvers: Resolvers<MyContext> = {
   Mutation: {
     submitSurvey: (_parent, _args, context) => {
       const { db } = context;
-      return {};
+      return {
+        userId: "id",
+        id: "iddd",
+        data: {},
+        createdAt: "",
+      };
     }
   }
 };

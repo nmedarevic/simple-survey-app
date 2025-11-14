@@ -1,5 +1,7 @@
 scalar JSON
 
+directive @auth(requires: Role) on FIELD_DEFINITION
+
 type Survey {
   id: ID!
   schema: JSON!
@@ -33,13 +35,13 @@ type Submission {
 }
 
 type Query {
-  me: User
+  me: User @auth
   survey: Survey!
-  mySubmissions: [Submission!]!   # RESPONDER only
-  allSubmissions: [Submission!]!  # REVIEWER only
+  mySubmissions: [Submission!]! @auth(requires: RESPONDER)
+  allSubmissions: [Submission!]! @auth(requires: REVIEWER)
 }
 
 type Mutation {
   login(email: String!, password: String!): String!
-  submitSurvey(data: JSON!): Submission!            # RESPONDER only
+  submitSurvey(data: JSON!): Submission! @auth(requires: RESPONDER)
 }

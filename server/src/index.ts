@@ -7,6 +7,8 @@ import { join } from "path";
 import { closeDatabase, getDatabase } from "./db/database";
 import { Database } from "sqlite";
 import jwt from "jsonwebtoken";
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { authDirectiveTransformer } from "./directives/auth.directive";
 
 export interface MyContext {
   db: Database;
@@ -31,12 +33,20 @@ const createServer = async () => {
 
   const typeDefs = readFileSync(join(__dirname, './schema.graphql'), { encoding: 'utf-8' });
   
-  const server = new ApolloServer<MyContext>({
+  // Create executable schema with directives
+  let schema = makeExecutableSchema({
     typeDefs,
     resolvers: [
       surveyResolvers,
       userResolvers
     ],
+  });
+
+  // Apply the auth directive transformer
+  schema = authDirectiveTransformer(schema, 'auth');
+  
+  const server = new ApolloServer<MyContext>({
+    schema,
     includeStacktraceInErrorResponses: false,
   });
 
