@@ -32,6 +32,7 @@ export type MutationLoginArgs = {
 
 export type MutationSubmitSurveyArgs = {
   data: Scalars['JSON']['input'];
+  survey_id: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -49,9 +50,9 @@ export enum Role {
 
 export type Submission = {
   __typename?: 'Submission';
-  createdAt: Scalars['String']['output'];
   data: Scalars['JSON']['output'];
   id: Scalars['ID']['output'];
+  submittedAt: Scalars['String']['output'];
   userId: Scalars['ID']['output'];
 };
 
@@ -167,13 +168,19 @@ export type ResolversParentTypes = {
   User: User;
 };
 
+export type AuthDirectiveArgs = {
+  requires?: Maybe<Role>;
+};
+
+export type AuthDirectiveResolver<Result, Parent, ContextType = any, Args = AuthDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
 export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
   name: 'JSON';
 }
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   login?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'email' | 'password'>>;
-  submitSurvey?: Resolver<ResolversTypes['Submission'], ParentType, ContextType, RequireFields<MutationSubmitSurveyArgs, 'data'>>;
+  submitSurvey?: Resolver<ResolversTypes['Submission'], ParentType, ContextType, RequireFields<MutationSubmitSurveyArgs, 'data' | 'survey_id'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -184,9 +191,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type SubmissionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Submission'] = ResolversParentTypes['Submission']> = {
-  createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   data?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  submittedAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
 };
 
@@ -211,3 +218,6 @@ export type Resolvers<ContextType = any> = {
   User?: UserResolvers<ContextType>;
 };
 
+export type DirectiveResolvers<ContextType = any> = {
+  auth?: AuthDirectiveResolver<any, any, ContextType>;
+};

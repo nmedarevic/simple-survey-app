@@ -8,13 +8,6 @@ type Survey {
   version: String!
 }
 
-type Submission {
-  id: ID!
-  userId: ID!
-  createdAt: String!
-  data: JSON!
-}
-
 
 type User {
   id: ID!
@@ -30,7 +23,7 @@ enum Role {
 type Submission {
   id: ID!
   userId: ID!
-  createdAt: String!
+  submittedAt: String!
   data: JSON!
 }
 
@@ -43,5 +36,5 @@ type Query {
 
 type Mutation {
   login(email: String!, password: String!): String!
-  submitSurvey(data: JSON!): Submission! @auth(requires: RESPONDER)
+  submitSurvey(survey_id: String!, data: JSON!): Submission! @auth(requires: RESPONDER)
 }

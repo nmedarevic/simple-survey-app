@@ -1,6 +1,7 @@
 import GraphQLJSON from 'graphql-type-json';
-import { Resolvers } from '../../graphql/gqlTypes';
+import { Resolvers, Submission } from '../../graphql/gqlTypes';
 import { MyContext } from '../../index';
+import { SurveyResponseModel } from '../../db/types';
 
 export const surveyResolvers: Resolvers<MyContext> = {
   JSON: GraphQLJSON,
@@ -11,31 +12,54 @@ export const surveyResolvers: Resolvers<MyContext> = {
       // Use db here as needed
       return {};
     },
-    mySubmissions: (_parent, _args, context) => {
+    mySubmissions: async (_parent, _args, context) => {
       const { db } = context;
-      return {};
+
+      const responses: SurveyResponseModel[] = await db.all('SELECT * FROM survey_responses WHERE user_id = ?', context.user.id);
+
+      return responses.map((responseModel): Submission => {
+        return {
+          id: responseModel.id.toString(),
+          userId: responseModel.user_id.toString(),
+          submittedAt: responseModel.submitted_at,
+          data: JSON.parse(responseModel.responses)
+        }
+      });
     },
-    allSubmissions: (_parent, _args, context) => {
+    allSubmissions: async (_parent, _args, context) => {
       const { db } = context;
-      return {};
+      
+      const responses: SurveyResponseModel[] = await db.all('SELECT * FROM survey_responses');
+
+      return responses.map((responseModel): Submission => {
+        return {
+          id: responseModel.id.toString(),
+          userId: responseModel.user_id.toString(),
+          submittedAt: responseModel.submitted_at,
+          data: JSON.parse(responseModel.responses)
+        }
+      });
     },
   },
   Mutation: {
-    submitSurvey: async (_parent, { data }, context) => {
+    submitSurvey: async (_parent, { survey_id, data }, context) => {
       const { db } = context;
       
       const userId = context.user.id
+      const now = new Date()
       const result = await db.run(
-        'INSERT INTO surveys (data, created_by) VALUES (?, ?)',
-        data,
-        userId
+        'INSERT INTO survey_responses (survey_id, user_id, responses, submitted_at) VALUES (?, ?, ?, ?)',
+        survey_id, // hardcoded for now
+        userId,
+        JSON.stringify(data),
+        now
       );
-console.log('\n\n', result, '\n\n');
+
       return {
-        userId: "id",
-        id: "iddd",
-        data: {},
-        createdAt: "",
+        userId: userId.toString(),
+        id: result.lastID.toString(),
+        data: data,
+        submittedAt: now.toISOString(),
       };
     }
   }

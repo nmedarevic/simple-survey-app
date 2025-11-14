@@ -87,10 +87,11 @@ export async function seedDatabase() {
         };
 
         await db.run(
-          'INSERT INTO survey_responses (survey_id, user_id, responses) VALUES (?, ?, ?)',
+          'INSERT INTO survey_responses (survey_id, user_id, responses, submitted_at) VALUES (?, ?, ?, ?)',
           survey.id,
           responder.id,
-          JSON.stringify(responses)
+          JSON.stringify(responses),
+          new Date()
         );
       }
     }
