@@ -1,5 +1,33 @@
 query Me {
   me {
     id
+    email
+    role
+  }
+}
+
+query GetSurvey {
+  survey {
+    id
+    schema
+    version
+  }
+}
+
+query MySubmissions {
+  mySubmissions {
+    id
+    userId
+    submittedAt
+    data
+  }
+}
+
+query AllSubmissions {
+  allSubmissions {
+    id
+    userId
+    submittedAt
+    data
   }
 }

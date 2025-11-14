@@ -1,0 +1,12 @@
+mutation Login($email: String!, $password: String!) {
+  login(email: $email, password: $password)
+}
+
+mutation SubmitSurvey($survey_id: String!, $data: JSON!) {
+  submitSurvey(survey_id: $survey_id, data: $data) {
+    id
+    submittedAt
+    data
+  }
+}
+

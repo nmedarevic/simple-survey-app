@@ -14,10 +14,12 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
-    "query Me {\n  me {\n    id\n  }\n}": typeof types.MeDocument,
+    "mutation Login($email: String!, $password: String!) {\n  login(email: $email, password: $password)\n}\n\nmutation SubmitSurvey($survey_id: String!, $data: JSON!) {\n  submitSurvey(survey_id: $survey_id, data: $data) {\n    id\n    submittedAt\n    data\n  }\n}": typeof types.LoginDocument,
+    "query Me {\n  me {\n    id\n    email\n    role\n  }\n}\n\nquery GetSurvey {\n  survey {\n    id\n    schema\n    version\n  }\n}\n\nquery MySubmissions {\n  mySubmissions {\n    id\n    userId\n    submittedAt\n    data\n  }\n}\n\nquery AllSubmissions {\n  allSubmissions {\n    id\n    userId\n    submittedAt\n    data\n  }\n}": typeof types.MeDocument,
 };
 const documents: Documents = {
-    "query Me {\n  me {\n    id\n  }\n}": types.MeDocument,
+    "mutation Login($email: String!, $password: String!) {\n  login(email: $email, password: $password)\n}\n\nmutation SubmitSurvey($survey_id: String!, $data: JSON!) {\n  submitSurvey(survey_id: $survey_id, data: $data) {\n    id\n    submittedAt\n    data\n  }\n}": types.LoginDocument,
+    "query Me {\n  me {\n    id\n    email\n    role\n  }\n}\n\nquery GetSurvey {\n  survey {\n    id\n    schema\n    version\n  }\n}\n\nquery MySubmissions {\n  mySubmissions {\n    id\n    userId\n    submittedAt\n    data\n  }\n}\n\nquery AllSubmissions {\n  allSubmissions {\n    id\n    userId\n    submittedAt\n    data\n  }\n}": types.MeDocument,
 };
 
 /**
@@ -37,7 +39,11 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query Me {\n  me {\n    id\n  }\n}"): (typeof documents)["query Me {\n  me {\n    id\n  }\n}"];
+export function graphql(source: "mutation Login($email: String!, $password: String!) {\n  login(email: $email, password: $password)\n}\n\nmutation SubmitSurvey($survey_id: String!, $data: JSON!) {\n  submitSurvey(survey_id: $survey_id, data: $data) {\n    id\n    submittedAt\n    data\n  }\n}"): (typeof documents)["mutation Login($email: String!, $password: String!) {\n  login(email: $email, password: $password)\n}\n\nmutation SubmitSurvey($survey_id: String!, $data: JSON!) {\n  submitSurvey(survey_id: $survey_id, data: $data) {\n    id\n    submittedAt\n    data\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query Me {\n  me {\n    id\n    email\n    role\n  }\n}\n\nquery GetSurvey {\n  survey {\n    id\n    schema\n    version\n  }\n}\n\nquery MySubmissions {\n  mySubmissions {\n    id\n    userId\n    submittedAt\n    data\n  }\n}\n\nquery AllSubmissions {\n  allSubmissions {\n    id\n    userId\n    submittedAt\n    data\n  }\n}"): (typeof documents)["query Me {\n  me {\n    id\n    email\n    role\n  }\n}\n\nquery GetSurvey {\n  survey {\n    id\n    schema\n    version\n  }\n}\n\nquery MySubmissions {\n  mySubmissions {\n    id\n    userId\n    submittedAt\n    data\n  }\n}\n\nquery AllSubmissions {\n  allSubmissions {\n    id\n    userId\n    submittedAt\n    data\n  }\n}"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
