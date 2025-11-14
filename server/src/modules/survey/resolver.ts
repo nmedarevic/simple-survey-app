@@ -1,18 +1,17 @@
 import GraphQLJSON from 'graphql-type-json';
 import { Resolvers, Submission } from '../../graphql/gqlTypes';
-import { SurveyResponseModel } from '../../db/types';
+import { SurveyModel, SurveyResponseModel } from '../../db/types';
 import { MyContext } from '../../create-server';
 
 export const surveyResolvers: Resolvers<MyContext> = {
   JSON: GraphQLJSON,
   Query: {
-    survey: (_parent, _args, context) => {
-      // Access the database from context
+    survey: async (_parent, _args, context) => {
       const { db } = context;
-      // Use db here as needed
+      const result: SurveyModel = await db.get('SELECT * FROM survey');
       return {
-        id: "1",
-        schema: "",
+        id: result.id.toString(),
+        schema: result.data,
         version: "1"
       };
     },
