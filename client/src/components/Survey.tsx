@@ -2,7 +2,10 @@ import { FunctionFactory, Model } from 'survey-core';
 import 'survey-core/survey-core.css';
 import { Survey } from 'survey-react-ui';
 import { SharpLight } from "survey-core/themes";
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useMutation, useQuery } from '@apollo/client/react';
+import { GetSurveyDocument, SubmitSurveyDocument } from '../schemaTypes/graphql';
+import { useAuth } from '../contexts/AuthContext';
 
 export type SurveyComponentProps = {
   config: any
@@ -25,16 +28,47 @@ function validateStringLength(params: any[], _?: any[] | undefined) {
   return value.length >= length
 }
 
-export default function SurveyComponent({config}: SurveyComponentProps) {
+export default function SurveyComponent() {
+  const {user} = useAuth()
+  const [config, setConfig] = useState<any>(null)
+  const [schemaId, setSchemaId] = useState<string>("")
+  const { refetch } = useQuery(GetSurveyDocument, {skip: true});
+  const [mutate] = useMutation(SubmitSurveyDocument)
+  
+  useEffect(() => {
+    const fetchConfig = async () => {
+      const result = await refetch()
+
+      if (result.data?.survey) {
+        setConfig(JSON.parse(result.data.survey.schema))
+        setSchemaId(result.data.survey.id)
+      }
+    }
+
+    fetchConfig()
+  }, [])
+
+  const surveyComplete = useCallback((survey: Model) => {
+    const userId = user?.id
+    survey.setValue("userId", userId);
+    const results = JSON.stringify(survey.data);
+    
+    mutate({variables: {
+      data: results,
+      survey_id: schemaId
+    }})
+  }, [user]);
+
+
+  if (!config) {
+    return <div>Loading</div>
+  }
+
   const survey = new Model(config);
   survey.applyTheme(SharpLight);
 
-  const surveyComplete = useCallback((survey: Model) => {
-    const userId = "1"
-    survey.setValue("userId", userId);
-    const results = JSON.stringify(survey.data);
-    console.log('\n\n', results, '\n\n');
-  }, []);
+  
+
   FunctionFactory.Instance.register("validateStringLength", validateStringLength);
   survey.onComplete.add(surveyComplete);
   survey.validationAllowSwitchPages = true;

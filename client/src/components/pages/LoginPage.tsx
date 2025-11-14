@@ -3,11 +3,13 @@ import LoginHeader from '../organisms/LoginHeader';
 import LoginForm from '../organisms/LoginForm';
 import { useMutation } from "@apollo/client/react";
 import { LoginDocument } from '../../schemaTypes/graphql';
+import { useAuth } from '../../contexts/AuthContext';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [mutate] = useMutation(LoginDocument);
+  const [mutate, {loading}] = useMutation(LoginDocument);
+  const {login, fetchMe} = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,8 +22,9 @@ const LoginPage = () => {
     const token = result.data?.login
 
     if (token) {
-      localStorage.setItem('authToken', token);
-      console.log('Login successful!');
+      login(token)
+
+      await fetchMe()
     } else {
       console.error('Login failed: No token received');
     }
@@ -38,6 +41,12 @@ const LoginPage = () => {
           onPasswordChange={setPassword}
           onSubmit={handleSubmit}
         />
+
+        {loading && (
+          <div className="mt-4 text-center text-gray-600">
+            Logging in...
+          </div>
+        )}
       </div>
     </div>
   );
