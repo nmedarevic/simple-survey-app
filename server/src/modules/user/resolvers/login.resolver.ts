@@ -3,6 +3,8 @@ import { GraphQLError } from 'graphql';
 import { Resolvers } from '../../../graphql/gqlTypes';
 import { MyContext } from '../../..';
 
+const ONE_HOUR = 1000 * 60 * 60;
+
 export const loginResolver:Resolvers<MyContext>["Mutation"]["login"] = async (_parent, args: { email: string; password: string }, context) => {
   if (!args.email || !args.password) {
     throw new GraphQLError('Email and password are required', {
@@ -37,6 +39,16 @@ export const loginResolver:Resolvers<MyContext>["Mutation"]["login"] = async (_p
     })
   }
   
-  // Return token or user data
-  return "generated-token-here";
+  if (typeof context.signToken === "undefined") {
+    throw new GraphQLError("Invalid password", {
+      extensions: {
+        code: "INTERNAL_SERVER_ERROR",
+        http: { status: 500 }
+      }
+    })
+  }
+
+  const token = context.signToken({ id: user.id, email: user.email }, ONE_HOUR)
+
+  return token;
 }

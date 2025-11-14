@@ -11,6 +11,7 @@ describe('Login Resolver Integration Test', () => {
   let testUserId: number;
   const testEmail = 'test@example.com';
   const testPassword = 'TestPassword123!';
+  const signToken = () => "password"
   
   before(async () => {
     db = await getDatabase("test_db")
@@ -38,7 +39,8 @@ describe('Login Resolver Integration Test', () => {
   
   it('should return a token string when login is successful', async () => {
     const context: MyContext = {
-      db
+      db,
+      signToken
     };
     
     const args = {
@@ -49,12 +51,13 @@ describe('Login Resolver Integration Test', () => {
     const result = await (loginResolver as any)(null, args, context, {} as any);
     
     expect(result).to.be.a('string');
-    expect(result).to.equal('generated-token-here');
+    expect(result).to.equal('password');
   });
   
   it('should throw an error when email is missing', async () => {
     const context: MyContext = {
-      db
+      db,
+      signToken
     };
     
     const args = {
@@ -75,7 +78,8 @@ describe('Login Resolver Integration Test', () => {
   it('should throw an error when password is missing', async () => {
     // Arrange
     const context: MyContext = {
-      db
+      db,
+      signToken
     };
     
     const args = {
@@ -96,7 +100,8 @@ describe('Login Resolver Integration Test', () => {
   it('should throw an error when user does not exist', async () => {
     // Arrange
     const context: MyContext = {
-      db
+      db,
+      signToken
     };
     
     const args = {
@@ -117,7 +122,8 @@ describe('Login Resolver Integration Test', () => {
   it('should throw an error when password is incorrect', async () => {
     // Arrange
     const context: MyContext = {
-      db
+      db,
+      signToken
     };
     
     const args = {

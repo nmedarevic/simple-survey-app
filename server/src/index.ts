@@ -6,11 +6,23 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { closeDatabase, getDatabase } from "./db/database";
 import { Database } from "sqlite";
+import jwt from "jsonwebtoken";
 
 export interface MyContext {
   db: Database;
   token?: string;
   user?: any;
+  signToken?: (payload: any, expiration: number) => string 
+}
+
+const signToken = (secret: string) => (payload: any, expiration: number) => {
+  const token = jwt.sign(
+    payload,
+    secret, // secret key
+    {expiresIn: expiration}
+  );
+
+  return token
 }
 
 const createServer = async () => {
@@ -38,7 +50,9 @@ const createServer = async () => {
       
       return {
         db,
-        token
+        token,
+        // this secret should be moved to an env var
+        signToken: signToken("simple-secret")
       };
     },
   });
