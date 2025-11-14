@@ -32,10 +32,7 @@ export async function seedDatabase() {
     // Create multiple users
     const usersData = [
       { email: 'admin@example.com', password: 'admin123', role: 'REVIEWER' },
-      { email: 'reviewer@example.com', password: 'reviewer123', role: 'REVIEWER' },
-      { email: 'user1@example.com', password: 'user123', role: 'RESPONDER' },
-      { email: 'user2@example.com', password: 'user123', role: 'RESPONDER' },
-      { email: 'user3@example.com', password: 'user123', role: 'RESPONDER' },
+      { email: 'user@example.com', password: 'user123', role: 'RESPONDER' },
     ];
 
     const createdUsers = [];
@@ -62,7 +59,7 @@ export async function seedDatabase() {
     const createdSurveys = [];
     for (const survey of surveysData) {
       const result = await db.run(
-        'INSERT INTO surveys (data, created_by) VALUES (?, ?)',
+        'INSERT INTO surveys (data) VALUES (?)',
         survey.data,
       );
       createdSurveys.push({ ...survey, id: result.lastID });
