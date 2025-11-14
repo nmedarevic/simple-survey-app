@@ -1,16 +1,9 @@
 import './App.css'
-import SurveyComponent from './components/Survey'
-import { simpleConfig } from './form-config/simple-config'
+import Login from './components/Login'
 
 function App() {
-  
   return (
-    <>
-      <div>
-        <SurveyComponent config={simpleConfig}/>
-      </div>
-      <h1>Vite + React</h1>
-    </>
+    <Login />
   )
 }
 
