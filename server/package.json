@@ -7,7 +7,7 @@
     "seed": "tsx ./src/db/seeder.ts",
     "start": "npm run compile && node ./dist/index.js",
     "dev": "tsx ./src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "codegen": "graphql-codegen --config codegen.ts"
   },
   "keywords": [],
@@ -30,7 +30,12 @@
     "@graphql-codegen/typescript": "5.0.4",
     "@graphql-codegen/typescript-resolvers": "5.1.2",
     "@types/bcrypt": "^6.0.0",
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
     "@types/node": "^24.10.1",
+    "chai": "^6.2.1",
+    "mocha": "^11.7.5",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
 }
