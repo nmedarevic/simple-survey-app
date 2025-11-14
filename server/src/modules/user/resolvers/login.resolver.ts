@@ -48,7 +48,7 @@ export const loginResolver:Resolvers<MyContext>["Mutation"]["login"] = async (_p
     })
   }
 
-  const token = context.signToken({ id: user.id, email: user.email }, ONE_HOUR)
+  const token = context.signToken({ id: user.id, email: user.email, role: user.role }, ONE_HOUR)
 
   return token;
 }
