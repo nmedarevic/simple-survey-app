@@ -1,10 +1,11 @@
 import { expect } from 'chai';
 import { Database } from 'sqlite';
 import { loginResolver } from './login.resolver';
-import { MyContext } from '../../../index';
+
 import { getDatabase, initializeDatabase } from '../../../db/database';
 import { seedUser } from '../../../db/seeds';
 import { Role } from '../../../graphql/gqlTypes';
+import { MyContext } from '../../../create-server';
 
 describe('Login Resolver Integration Test', () => {
   let db: Database;

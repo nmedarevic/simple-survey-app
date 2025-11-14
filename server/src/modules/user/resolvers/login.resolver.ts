@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt';
 import { GraphQLError } from 'graphql';
 import { Resolvers } from '../../../graphql/gqlTypes';
-import { MyContext } from '../../..';
-import { UserModel } from '../types';
+import { MyContext } from '../../../create-server';
+import { UserModel } from '../../../db/types';
 
 const ONE_HOUR = 1000 * 60 * 60;
 

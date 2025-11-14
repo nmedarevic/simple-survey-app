@@ -1,9 +1,7 @@
 import GraphQLJSON from 'graphql-type-json';
 import { Resolvers, Role } from '../../graphql/gqlTypes';
-import { MyContext } from '../../index';
-import bcrypt from 'bcrypt';
-import { GraphQLError } from 'graphql';
 import { loginResolver } from './resolvers/login.resolver';
+import { MyContext } from '../../create-server';
 
 export const userResolvers: Resolvers<MyContext> = {
   JSON: GraphQLJSON,
