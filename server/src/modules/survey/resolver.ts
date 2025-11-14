@@ -21,8 +21,16 @@ export const surveyResolvers: Resolvers<MyContext> = {
     },
   },
   Mutation: {
-    submitSurvey: (_parent, _args, context) => {
+    submitSurvey: async (_parent, { data }, context) => {
       const { db } = context;
+      
+      const userId = context.user.id
+      const result = await db.run(
+        'INSERT INTO surveys (data, created_by) VALUES (?, ?)',
+        data,
+        userId
+      );
+console.log('\n\n', result, '\n\n');
       return {
         userId: "id",
         id: "iddd",

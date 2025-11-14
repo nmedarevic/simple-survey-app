@@ -8,12 +8,12 @@ import { closeDatabase, getDatabase } from "./db/database";
 import { Database } from "sqlite";
 import jwt from "jsonwebtoken";
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import { authDirectiveTransformer } from "./directives/auth.directive";
+import { authDirectiveTransformer, DecodedToken } from "./directives/auth.directive";
 
 export interface MyContext {
   db: Database;
   token?: string;
-  user?: any;
+  user?: DecodedToken;
   signToken?: (payload: any, expiration: number) => string 
 }
 

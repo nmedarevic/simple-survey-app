@@ -56,13 +56,11 @@ export async function seedDatabase() {
     const reviewerUser = createdUsers.find(u => u.role === 'REVIEWER');
     const surveysData = [
       {
-        title: 'Q4 2024 Employee Satisfaction Survey',
-        description: 'Quarterly check-in with employees',
+        data: JSON.stringify({ someSurveyData: 5 }),
         created_by: reviewerUser?.id
       },
       {
-        title: 'Product Feedback Survey',
-        description: 'Gather feedback on our latest product release',
+        data: JSON.stringify({ someSurveyData: 6 }),
         created_by: reviewerUser?.id
       }
     ];
@@ -70,13 +68,12 @@ export async function seedDatabase() {
     const createdSurveys = [];
     for (const survey of surveysData) {
       const result = await db.run(
-        'INSERT INTO surveys (title, description, created_by) VALUES (?, ?, ?)',
-        survey.title,
-        survey.description,
+        'INSERT INTO surveys (data, created_by) VALUES (?, ?)',
+        survey.data,
         survey.created_by
       );
       createdSurveys.push({ ...survey, id: result.lastID });
-      console.log(`✅ Created survey: ${survey.title}`);
+      console.log(`✅ Created survey`);
     }
 
     // Create survey responses from responders
