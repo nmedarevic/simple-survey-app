@@ -12,7 +12,6 @@ export type SurveyComponentProps = {
 }
 
 function validateStringLength(params: any[], _?: any[] | undefined) {
-  console.log('\n\n', params, '\n\n');
   if (!params || params && params.length === 0) {
     return false
   }

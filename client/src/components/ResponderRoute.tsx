@@ -1,7 +1,7 @@
 import { useAuth } from '../contexts/AuthContext';
 import LoginPage from './pages/LoginPage';
 import { Role } from '../schemaTypes/graphql';
-import SurveyComponent from './Survey';
+import SurveyPage from './pages/SurveyPage';
 
 
 const ResponderRoute = () => {
@@ -15,13 +15,12 @@ const ResponderRoute = () => {
     );
   }
 
-  console.log('\n\n', isAuthenticated, '\n\n');
   if (!isAuthenticated) {
     return <LoginPage />;
   }
 
   if (isAuthenticated && user?.role === Role.Responder) {
-    return <SurveyComponent />
+    return <SurveyPage />
   }
 
   return <></>;
