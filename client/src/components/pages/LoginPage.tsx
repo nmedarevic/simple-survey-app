@@ -1,16 +1,33 @@
 import { useState } from 'react';
 import LoginHeader from '../organisms/LoginHeader';
 import LoginForm from '../organisms/LoginForm';
+import { graphql } from '../../schemaTypes/gql';
+import { useMutation } from "@apollo/client/react";
+import { gql } from '@apollo/client';
+import { LoginDocument } from '../../schemaTypes/graphql';
 
+// const LoginQuery = graphql(`
+//   mutation Login($email: String!, $password: String!) {
+//     login(email: $email, password: $password)
+//   }
+// `);
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [mutate, result2] = useMutation(LoginDocument);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login with:', { email, password });
+
+    const result = await mutate({variables: {
+      email,
+      password
+    }});
+
+    const token = result.data?.login
+
+    console.log('\n\n', token, result, result2,'\n\n');
   };
 
   return (
