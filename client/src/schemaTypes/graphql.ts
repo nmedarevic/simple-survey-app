@@ -33,6 +33,7 @@ export type MutationLoginArgs = {
 
 export type MutationSubmitSurveyArgs = {
   data: Scalars['JSON']['input'];
+  survey_id: Scalars['String']['input'];
 };
 
 export type Query = {
@@ -50,9 +51,9 @@ export enum Role {
 
 export type Submission = {
   __typename?: 'Submission';
-  createdAt: Scalars['String']['output'];
   data: Scalars['JSON']['output'];
   id: Scalars['ID']['output'];
+  submittedAt: Scalars['String']['output'];
   userId: Scalars['ID']['output'];
 };
 
