@@ -5,12 +5,14 @@ import path from 'path';
 let db: Database | null = null;
 
 // Initialize and return database connection
-export async function getDatabase(): Promise<Database> {
+export async function getDatabase(dbName?: string): Promise<Database> {
   if (db) {
     return db;
   }
 
-  const dbPath = path.join(__dirname, '../../db/database.sqlite');
+  const name = dbName ?? "database"
+
+  const dbPath = path.join(__dirname, `../../db/${name}.sqlite`);
   
   db = await open({
     filename: dbPath,
