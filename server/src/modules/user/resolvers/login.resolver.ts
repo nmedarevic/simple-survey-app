@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import { GraphQLError } from 'graphql';
 import { Resolvers } from '../../../graphql/gqlTypes';
 import { MyContext } from '../../..';
+import { UserModel } from '../types';
 
 const ONE_HOUR = 1000 * 60 * 60;
 
@@ -17,8 +18,8 @@ export const loginResolver:Resolvers<MyContext>["Mutation"]["login"] = async (_p
 
   const { db } = context;
 
-  const user = await db.get('SELECT * FROM users WHERE email = ?', args.email);
-  
+  const user: UserModel = await db.get('SELECT * FROM users WHERE email = ?', args.email);
+
   if (!user) {
     throw new GraphQLError("User not found", {
       extensions: {
