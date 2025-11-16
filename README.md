@@ -11,13 +11,13 @@ While in the root folder, type `npm run start` and wait until the console starts
 Email:
 `admin@example.com`
 
-Password: `admin123`
+Password: `admin`
 
 ### RESPONDER role
 
 Email: `user@example.com`
 
-Password: `user123`
+Password: `user`
 
 ### Completion checklist
 

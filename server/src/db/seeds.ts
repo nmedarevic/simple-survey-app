@@ -31,8 +31,8 @@ export async function seedDatabase() {
 
     // Create multiple users
     const usersData = [
-      { email: 'admin@example.com', password: 'admin123', role: 'REVIEWER' },
-      { email: 'user@example.com', password: 'user123', role: 'RESPONDER' },
+      { email: 'admin@example.com', password: 'admin', role: 'REVIEWER' },
+      { email: 'user@example.com', password: 'user', role: 'RESPONDER' },
     ];
 
     const createdUsers = [];
