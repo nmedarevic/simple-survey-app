@@ -40,6 +40,12 @@ const LoginPage = () => {
       return
     }
 
+    if (user?.role === Role.Reviewer) {
+      navigate('/responder/survey', { replace: true });
+
+      return
+    }
+
   }, [isAuthenticated, user])
 
   return (
