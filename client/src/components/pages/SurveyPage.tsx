@@ -1,4 +1,4 @@
-import SurveyComponent from '../Survey';
+import SurveyComponent from '../organisms/Survey';
 import { useAuth } from '../../contexts/AuthContext';
 import Button from '../atoms/Button';
 import Text from '../atoms/Text';

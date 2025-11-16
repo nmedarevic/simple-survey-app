@@ -4,9 +4,9 @@ import { Survey } from 'survey-react-ui';
 import { SharpLight } from "survey-core/themes";
 import { useCallback, useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client/react';
-import { GetSurveyDocument, SubmitSurveyDocument } from '../schemaTypes/graphql';
-import { useAuth } from '../contexts/AuthContext';
-import { LoadingFallback } from './atoms/Loading';
+import { GetSurveyDocument, SubmitSurveyDocument } from '../../schemaTypes/graphql';
+import { useAuth } from '../../contexts/AuthContext';
+import { LoadingFallback } from '../atoms/Loading';
 
 export type SurveyComponentProps = {
   config: any
