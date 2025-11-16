@@ -8,6 +8,7 @@ import { GetSurveyDocument, SubmitSurveyDocument } from '../../schemaTypes/graph
 import { useAuth } from '../../contexts/AuthContext';
 import { LoadingFallback } from '../atoms/Loading';
 import "./../survey-components/Calendar"
+import "./../survey-components/Dropdown"
 
 export type SurveyComponentProps = {
   config: any

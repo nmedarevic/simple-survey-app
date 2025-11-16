@@ -20,6 +20,19 @@ export const simpleConfig = {
       }]
     },
     {
+      name: "favorite-color",
+      title: "What's your favorite color?",
+      type: "dropdown-custom",
+      placeholder: "Select a color...",
+      choices: [
+        { value: "red", text: "Red" },
+        { value: "blue", text: "Blue" },
+        { value: "green", text: "Green" },
+        { value: "yellow", text: "Yellow" }
+      ],
+      isRequired: true
+    },
+    {
       name: "last-name",
       title: "Enter your last name:",
       type: "text",
@@ -96,6 +109,19 @@ export const simpleConfig = {
       choices: [
         { value: false, text: "No" },
         { value: true, text: "Yes!" }
+      ],
+      isRequired: true
+    },
+    {
+      name: "favorite-color",
+      title: "What's your favorite color?",
+      type: "dropdown-custom",
+      placeholder: "Select a color...",
+      choices: [
+        { value: "red", text: "Red" },
+        { value: "blue", text: "Blue" },
+        { value: "green", text: "Green" },
+        { value: "yellow", text: "Yellow" }
       ],
       isRequired: true
     }]

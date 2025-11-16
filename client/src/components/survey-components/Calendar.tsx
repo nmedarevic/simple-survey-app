@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Question, Serializer, ElementFactory } from 'survey-core';
 import { SurveyQuestionElementBase, ReactQuestionFactory } from 'survey-react-ui';
-import { Calendar } from '@/components/atoms/calendar';
+import { Calendar } from '@/components/molecules/Calendar';
 
 // Calendar Question Model
 export class CalendarQuestionModel extends Question {

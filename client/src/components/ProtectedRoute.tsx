@@ -12,7 +12,6 @@ export const ProtectedRoute = (props: ProtectedRouteProps) => {
   const navigate = useNavigate();
   const { isAuthenticated, isLoading, user } = useAuth();
 
-  console.log('\n\n', "ProtectedRoute", user, '\n\n');
   if (isLoading) {
     return <LoadingFallback />
   }
