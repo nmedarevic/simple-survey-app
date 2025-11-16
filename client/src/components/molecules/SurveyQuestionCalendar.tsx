@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Question, Serializer, ElementFactory } from 'survey-core';
 import { SurveyQuestionElementBase, ReactQuestionFactory } from 'survey-react-ui';
-import { Calendar } from '@/components/molecules/Calendar';
+import { CalendarComponent } from './Calendar';
 
 // Calendar Question Model
 export class CalendarQuestionModel extends Question {
@@ -38,55 +38,6 @@ ElementFactory.Instance.registerElement('calendar', (name) => {
   return new CalendarQuestionModel(name);
 });
 
-// Calendar Component using shadcn
-interface CalendarProps {
-  selectedDate?: string;
-  onDateSelect: (date: string) => void;
-}
-
-const CalendarComponent: React.FC<CalendarProps> = ({
-  selectedDate,
-  onDateSelect,
-}) => {
-  const [selected, setSelected] = useState<Date | undefined>(
-    selectedDate ? new Date(selectedDate) : undefined
-  );
-
-  useEffect(() => {
-    if (selectedDate) {
-      setSelected(new Date(selectedDate));
-    }
-  }, [selectedDate]);
-
-  const handleSelect = (date: Date | undefined) => {
-    setSelected(date);
-    if (date) {
-      onDateSelect( date.toISOString());
-    }
-  };
-
-  return (
-    <div className="flex flex-row gap-4">
-      <Calendar
-        mode="single"
-        selected={selected}
-        onSelect={handleSelect}
-        className="w-1/2 rounded-md border shadow-sm"
-        captionLayout="dropdown"
-      />
-      {selected && (
-        <div className="text-sm text-center">
-          Selected: <strong>{selected.toLocaleDateString('en-US', { 
-            weekday: 'short', 
-            year: 'numeric', 
-            month: 'short', 
-            day: 'numeric' 
-          })}</strong>
-        </div>
-      )}
-    </div>
-  );
-};
 
 // React component wrapper for SurveyJS
 export class SurveyQuestionCalendar extends SurveyQuestionElementBase {

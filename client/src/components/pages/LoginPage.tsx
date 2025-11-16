@@ -34,7 +34,6 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    console.log('\n\n', user, '\n\n');
     if (user?.role === Role.Responder) {
       navigate('/responder/survey', { replace: true });
 

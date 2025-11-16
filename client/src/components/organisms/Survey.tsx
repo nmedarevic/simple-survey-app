@@ -7,8 +7,8 @@ import { useMutation, useQuery } from '@apollo/client/react';
 import { GetSurveyDocument, SubmitSurveyDocument } from '../../schemaTypes/graphql';
 import { useAuth } from '../../contexts/AuthContext';
 import { LoadingFallback } from '../atoms/Loading';
-import "./../survey-components/Calendar"
-import "./../survey-components/Dropdown"
+import "../molecules/SurveyQuestionCalendar"
+import "../molecules/SurveyQuestionDropdown"
 
 export type SurveyComponentProps = {
   config: any

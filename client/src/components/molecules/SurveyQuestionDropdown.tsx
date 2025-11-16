@@ -1,13 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Question, Serializer, ElementFactory } from 'survey-core';
 import { SurveyQuestionElementBase, ReactQuestionFactory } from 'survey-react-ui';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/atoms/Select';
+import { DropdownComponent } from './Dropdown';
 
 export class DropdownQuestionModel extends Question {
   getType() {
@@ -24,7 +18,12 @@ export class DropdownQuestionModel extends Question {
   }
 
   get choices(): Array<{ value: string; text: string }> {
-    return this.getPropertyValue('choices') || [];
+    const rawChoices = this.getPropertyValue('choices') || [];
+    // Convert SurveyJS ItemValue format to our format
+    return rawChoices.map((choice: any) => ({
+      value: choice.value || choice,
+      text: choice.text || choice.value || choice
+    }));
   }
 
   set choices(val: Array<{ value: string; text: string }>) {
@@ -46,7 +45,7 @@ Serializer.addClass(
   [
     { name: 'selectedValue', default: '' },
     { name: 'choices:itemvalue[]', default: [] },
-    { name: 'placeholder', default: 'Select an option...' },
+    { name: 'placeholder', default: '' },
   ],
   function () {
     return new DropdownQuestionModel('');
@@ -59,61 +58,10 @@ ElementFactory.Instance.registerElement('dropdown-custom', (name) => {
   return new DropdownQuestionModel(name);
 });
 
-// Dropdown Component using shadcn
-interface DropdownProps {
-  selectedValue?: string;
-  choices: Array<{ value: string; text: string }>;
-  placeholder?: string;
-  onValueSelect: (value: string) => void;
-}
-
-const DropdownComponent: React.FC<DropdownProps> = (props) => {
-  const {
-    selectedValue,
-    choices,
-    placeholder = 'Select an option...',
-    onValueSelect,
-  } = props
-
-  console.log('\n\n', props, '\n\n');
-  const [selected, setSelected] = useState<string | undefined>(selectedValue);
-
-  useEffect(() => {
-    setSelected(selectedValue);
-  }, [selectedValue]);
-
-  const handleSelect = (value: string) => {
-    setSelected(value);
-    onValueSelect(value);
-  };
-console.log('\n\n', choices, '\n\n');
-  return (
-    <div className="flex flex-col gap-2">
-      <Select value={selected} onValueChange={handleSelect}>
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder={placeholder} />
-        </SelectTrigger>
-        <SelectContent>
-          {choices.map((choice) => (
-            <SelectItem key={choice.value} value={choice.value}>
-              {choice.text}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-      {selected && (
-        <div className="text-sm text-muted-foreground">
-          Selected: <strong>{choices.find((c) => c.value === selected)?.text || selected}</strong>
-        </div>
-      )}
-    </div>
-  );
-};
 
 // React component wrapper for SurveyJS
 export class SurveyQuestionDropdown extends SurveyQuestionElementBase {
   constructor(props: any) {
-    console.log('\n\n', props, '\n\n');
     super(props);
   }
 
@@ -126,7 +74,6 @@ export class SurveyQuestionDropdown extends SurveyQuestionElementBase {
   };
 
   renderElement() {
-    console.log('\n\n', this.question.choices, '\n\n');
     return (
       <DropdownComponent
         selectedValue={this.question.selectedValue}
