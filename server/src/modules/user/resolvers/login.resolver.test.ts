@@ -7,7 +7,7 @@ import { seedUser } from '../../../db/seeds';
 import { Role } from '../../../graphql/gqlTypes';
 import { MyContext } from '../../../create-server';
 
-describe('Login Resolver Integration Test', () => {
+describe('[Resolver] Login', () => {
   let db: Database;
   let testUserId: number;
   const testEmail = 'test@example.com';

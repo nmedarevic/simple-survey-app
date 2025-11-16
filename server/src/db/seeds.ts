@@ -85,7 +85,7 @@ export async function seedDatabase() {
       { email: 'user@example.com', password: 'user', role: 'RESPONDER' },
     ];
 
-    const createdUsers = await seedUsers(usersData)
+    await seedUsers(usersData)
 
     const surveysData = [
       {
