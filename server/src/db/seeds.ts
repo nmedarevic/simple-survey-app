@@ -68,6 +68,18 @@ export const seedSurveys = async (surveysData: SurveyData[]): Promise<SeededSurv
   return createdSurveys
 }
 
+export const reSeedSurveyConfig = async () =>  {
+  const db = await getDatabase();
+  await db.run('DELETE FROM surveys');
+  const surveysData = [
+    {
+      data: JSON.stringify(simpleConfig)
+    }
+  ];
+
+  await seedSurveys(surveysData);
+}
+
 export async function seedDatabase() {
   try {
     console.log('🌱 Starting database seeding...');

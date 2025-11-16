@@ -3,10 +3,10 @@ export const simpleConfig = {
     {
     elements: [
       {
-        name: "preferred-return-date",
-        title: "When would you prefer to return?",
+        name: "date-of-birth",
+        title: "When were you born?",
         type: "calendar",
-        minDate: "2025-01-01",
+        minDate: "1971-01-01",
         isRequired: true
       },
       {
@@ -91,7 +91,7 @@ export const simpleConfig = {
   {
     elements: [{
       name: "satisfaction",
-      title: "Are you going to enjoy your vacation",
+      title: "Are you satisfied with your life so far?",
       type: "radiogroup",
       choices: [
         { value: false, text: "No" },
