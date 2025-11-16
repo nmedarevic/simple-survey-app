@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoginHeader from '../organisms/LoginHeader';
 import LoginForm from '../organisms/LoginForm';
 import { useMutation } from "@apollo/client/react";
-import { LoginDocument } from '../../schemaTypes/graphql';
+import { LoginDocument, Role } from '../../schemaTypes/graphql';
 import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
+  const navigate = useNavigate()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [mutate, {loading}] = useMutation(LoginDocument);
-  const {login, fetchMe} = useAuth()
+  const {login, fetchMe, isAuthenticated, user} = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,6 +31,16 @@ const LoginPage = () => {
       console.error('Login failed: No token received');
     }
   };
+
+  useEffect(() => {
+    console.log('\n\n', user, '\n\n');
+    if (user?.role === Role.Responder) {
+      navigate('/responder/survey', { replace: true });
+
+      return
+    }
+
+  }, [isAuthenticated, user])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
