@@ -5,6 +5,7 @@ import { useMutation } from "@apollo/client/react";
 import { LoginDocument, Role } from '../../schemaTypes/graphql';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { LoadingFallback } from '../atoms/Loading';
 
 const LoginPage = () => {
   const navigate = useNavigate()
@@ -49,7 +50,7 @@ const LoginPage = () => {
   }, [isAuthenticated, user])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
+    <div className="min-h-screen theme-primary flex items-center justify-center px-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
         <LoginHeader />
         <LoginForm
@@ -61,9 +62,7 @@ const LoginPage = () => {
         />
 
         {loading && (
-          <div className="mt-4 text-center text-gray-600">
-            Logging in...
-          </div>
+          <LoadingFallback />
         )}
       </div>
     </div>
