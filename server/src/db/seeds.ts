@@ -17,6 +17,62 @@ export const seedUser = async ({email, password, role}: {email: string, password
   return result.lastID
 }
 
+export type UserSeed = {
+  email: string;
+  password: string;
+  role: string;
+}
+
+export type SeededUser = UserSeed & {
+  id: number;
+}
+
+export const seedUsers = async (userSeeds: UserSeed[]): Promise<SeededUser[]> => {
+  const db = await getDatabase();
+
+  const createdUsers: SeededUser[] = [];
+
+  for (const userData of userSeeds) {
+    const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
+
+    const result = await db.run(
+      'INSERT INTO users (email, password, role) VALUES (?, ?, ?)',
+      userData.email,
+      hashedPassword,
+      userData.role
+    );
+    createdUsers.push({ ...userData, id: result.lastID });
+    console.log(`✅ Created user: ${userData.email} (Role: ${userData.role})`);
+  }
+
+  return createdUsers
+}
+
+export type SurveyData = {
+  data: string;
+}
+
+export type SeededSurveyData = SurveyData & {
+  id: number;
+}
+
+export const seedSurveys = async (surveysData: SurveyData[]): Promise<SeededSurveyData[]> => {
+  const db = await getDatabase();
+
+  const createdSurveys: SeededSurveyData[] = [];
+
+  for (const survey of surveysData) {
+    const result = await db.run(
+      'INSERT INTO surveys (data) VALUES (?)',
+      survey.data,
+    );
+    createdSurveys.push({ ...survey, id: result.lastID });
+    console.log(`✅ Created survey`);
+  }
+
+  return createdSurveys
+}
+
 export async function seedDatabase() {
   try {
     console.log('🌱 Starting database seeding...');
@@ -35,20 +91,7 @@ export async function seedDatabase() {
       { email: 'user@example.com', password: 'user', role: 'RESPONDER' },
     ];
 
-    const createdUsers = [];
-    for (const userData of usersData) {
-      const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
-
-      const result = await db.run(
-        'INSERT INTO users (email, password, role) VALUES (?, ?, ?)',
-        userData.email,
-        hashedPassword,
-        userData.role
-      );
-      createdUsers.push({ ...userData, id: result.lastID });
-      console.log(`✅ Created user: ${userData.email} (Role: ${userData.role})`);
-    }
-
+    const createdUsers = await seedUsers(usersData)
 
     const surveysData = [
       {
@@ -56,36 +99,24 @@ export async function seedDatabase() {
       }
     ];
 
-    const createdSurveys = [];
-    for (const survey of surveysData) {
-      const result = await db.run(
-        'INSERT INTO surveys (data) VALUES (?)',
-        survey.data,
-      );
-      createdSurveys.push({ ...survey, id: result.lastID });
-      console.log(`✅ Created survey`);
-    }
+    await seedSurveys(surveysData);
 
-    // Create survey responses from responders
-    const responders = createdUsers.filter(u => u.role === 'RESPONDER');
-    for (const responder of responders) {
-      for (const survey of createdSurveys) {
-        const responses = {
-          satisfaction: Math.floor(Math.random() * 5) + 1,
-          comments: `Sample feedback from ${responder.email}`,
-          wouldRecommend: Math.random() > 0.5
-        };
+    // // Create survey responses from responders
+    // const responders = createdUsers.filter(u => u.role === 'RESPONDER');
+    // for (const responder of responders) {
+    //   for (const survey of createdSurveys) {
+    //     const responses = {};
 
-        await db.run(
-          'INSERT INTO survey_responses (survey_id, user_id, responses, submitted_at) VALUES (?, ?, ?, ?)',
-          survey.id,
-          responder.id,
-          JSON.stringify(responses),
-          new Date()
-        );
-      }
-    }
-    console.log(`✅ Created ${responders.length * createdSurveys.length} survey responses`);
+    //     await db.run(
+    //       'INSERT INTO survey_responses (survey_id, user_id, responses, submitted_at) VALUES (?, ?, ?, ?)',
+    //       survey.id,
+    //       responder.id,
+    //       JSON.stringify(responses),
+    //       new Date()
+    //     );
+    //   }
+    // }
+    // console.log(`✅ Created ${responders.length * createdSurveys.length} survey responses`);
 
     console.log('\n🎉 Database seeding completed successfully!');
     console.log('\nTest credentials:');
