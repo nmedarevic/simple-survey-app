@@ -1,6 +1,6 @@
 import SurveyComponent from '../organisms/Survey';
 import { useAuth } from '../../contexts/AuthContext';
-import Button from '../atoms/Button';
+import {Button} from '@/components/atoms/Button';
 import Text from '../atoms/Text';
 
 const SurveyPage = () => {
