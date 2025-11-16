@@ -15,6 +15,9 @@
     "components": "@/components",
     "utils": "@/lib/utils",
     "ui": "@/components/ui",
+    "atoms": "@/components/atoms",
+    "molecules": "@/components/molecules",
+    "organism": "@/components/organism",
     "lib": "@/lib",
     "hooks": "@/hooks"
   },

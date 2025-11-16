@@ -1,6 +1,6 @@
 import type { FormEvent } from 'react';
-import InputField from '../molecules/InputField';
-import Button from '../atoms/Button';
+import InputField from '@/components/molecules/InputField';
+import { Button } from '@/components/atoms/Button';
 
 interface LoginFormProps {
   email: string;
@@ -39,7 +39,7 @@ const LoginForm = ({
         placeholder="Enter your password"
       />
 
-      <Button type="submit" fullWidth>
+      <Button type="submit">
         Sign In
       </Button>
     </form>

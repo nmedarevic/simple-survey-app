@@ -1,13 +1,15 @@
-export type SurveyValidator = {
-  type: string;
-  text: string;
-  expression: string;
-};
-
 export const simpleConfig = {
   pages: [
     {
-    elements: [{
+    elements: [
+      {
+        name: "preferred-return-date",
+        title: "When would you prefer to return?",
+        type: "calendar",
+        minDate: "2025-01-01",
+        isRequired: true
+      },
+      {
       name: "first-name",
       title: "Enter your first name:",
       type: "text",
