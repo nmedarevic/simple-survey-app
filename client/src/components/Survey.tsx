@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client/react';
 import { GetSurveyDocument, SubmitSurveyDocument } from '../schemaTypes/graphql';
 import { useAuth } from '../contexts/AuthContext';
+import { LoadingFallback } from './atoms/Loading';
 
 export type SurveyComponentProps = {
   config: any
@@ -60,7 +61,7 @@ export default function SurveyComponent() {
 
 
   if (!config) {
-    return <div>Loading</div>
+    return <LoadingFallback />
   }
 
   const survey = new Model(config);
