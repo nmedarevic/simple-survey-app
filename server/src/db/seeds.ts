@@ -33,15 +33,9 @@ export const seedUsers = async (userSeeds: UserSeed[]): Promise<SeededUser[]> =>
   const createdUsers: SeededUser[] = [];
 
   for (const userData of userSeeds) {
-    const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
-
-    const result = await db.run(
-      'INSERT INTO users (email, password, role) VALUES (?, ?, ?)',
-      userData.email,
-      hashedPassword,
-      userData.role
-    );
-    createdUsers.push({ ...userData, id: result.lastID });
+    const id = await seedUser(userData, {db})
+    
+    createdUsers.push({ ...userData, id });
     console.log(`✅ Created user: ${userData.email} (Role: ${userData.role})`);
   }
 
